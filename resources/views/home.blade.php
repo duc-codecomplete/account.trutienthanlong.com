@@ -46,7 +46,7 @@
                             <label class="col-3 col-form-label required">
                                 Xu
                             </label>
-                            <div class="col"><input type="text" disabled class="form-control" value="{{Auth::user()->userid}}"
+                            <div class="col"><input type="text" disabled class="form-control" value="{{Auth::user()->balance}}"
                                     aria-label="Text input with dropdown button"></div>
                         </div>
                         <div class="mb-3 row">

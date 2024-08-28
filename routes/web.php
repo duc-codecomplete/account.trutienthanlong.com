@@ -44,7 +44,7 @@ Route::group(['middleware' => 'auth'], function () {
 	Route::post('/shops', [HomeController::class, 'postShop']);
 
 	Route::get('/giftcodes', [HomeController::class, 'getGiftCode'])->name("giftcodes");
-	Route::get('/giftcodes/{id}/using', [HomeController::class, 'useGiftCode']);
+	Route::post('/giftcodes', [HomeController::class, 'useGiftCode']);
 	Route::get('/transactions', [HomeController::class, 'transactions'])->name("transactions");
 
 	Route::get('/doi-mat-khau', [AuthController::class, 'getPassword'])->name("password");

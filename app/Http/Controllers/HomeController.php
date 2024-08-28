@@ -91,11 +91,13 @@ class HomeController extends Controller
         return view("giftcodes", ["giftcodes" => $giftcodes]);
     }
 
-    public function useGiftcode(Request $request, $id)
+    public function useGiftcode(Request $request)
     {
         $user = Auth::user();
-        if (!$user->main_id) {
-            return back()->with("error", "Vui lòng vào game tạo nhân vật!!");
+
+        $code = Giftcode::where("giftcode", $request->giftcode)->first();
+        if (!$code) {
+            return back()->with("error", "Giftcode không tồn tại!");
         }
         $userGiftcode = GiftcodeUser::where(["user_id" => $user->id, "giftcode_id" => $id])->first();
         if ($userGiftcode) {
@@ -103,7 +105,6 @@ class HomeController extends Controller
         }
         try {
             DB::beginTransaction();
-            $code = Giftcode::find($id);
             $use = new GiftcodeUser;
             $use->user_id = $user->id;
             $use->giftcode_id = $id;
