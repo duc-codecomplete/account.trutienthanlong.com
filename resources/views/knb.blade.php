@@ -1,39 +1,56 @@
 @extends('layouts.master')
 @section('content')
-<div class="container-xl">
-    <div class="row g-3 mb-4 align-items-center justify-content-between">
-        <div class="col-auto">
-            <h1 class="app-page-title mb-0">Chuyển đổi KNB vào game</h1><small style="color:red">*Tỉ lệ: 100 xu = 300 KNB</small>
-                <p><small style="">*Mỗi lần nạp tối thiểu là 50 xu</p>
-        </div>
-    </div>
-    @if(Session::has('error'))
-    <div class="alert alert-danger alert-dismissible fade show" role="alert">
-        <small>{{ Session::get('error') }}</small>
-        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-    </div>
-    @endif
-    @if(Session::has('success'))
-    <div class="alert alert-success alert-dismissible fade show" role="alert">
-        <small>{{ Session::get('success') }}</small>
-        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-    </div>
-    @endif
-    <form class="row" action="" method="POST">
-        @csrf
-        <div class="col-4">
-            <input min="50" name="cash" required class="form-control" type="number" max="{{ Auth::user()->balance}}" oninvalid="this.setCustomValidity('Số xu nạp phải nhỏ hơn hoặc bằng số dư hiện có')"
-            oninput="this.setCustomValidity('')">
-        </div>
 
-        <div class="col-4">
-            <button type="submit" class="btn btn-sm btn-danger text-center">Nạp KNB</button>
-        </div>
-    </form>
-    <br>
-    <!--//row-->
+<!-- Page body -->
+<div class="page-body">
+    <div class="container-xl">
+        <div class="row row-deck row-cards">
+            <div class="col-12">
+                <form class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">CHUYỂN ĐỔI KNB
+                        </h3>
+                    </div>
+                    <div class="card-body">
+                        <div class="space-y-4">
+                            <div>
+                                <div id="faq-1" class="accordion" role="tablist" aria-multiselectable="true">
+                                    <div class="accordion-item">
+                                        <div class="accordion-header" role="tab">
+                                            <button class="accordion-button" data-bs-toggle="collapse"
+                                                data-bs-target="#faq-1-1">Lưu ý!</button>
+                                        </div>
+                                        <div id="faq-1-1" class="accordion-collapse collapse show" role="tabpanel"
+                                            data-bs-parent="#faq-1">
+                                            <div class="accordion-body pt-0">
+                                                <div>
+                                                    <p>Tỉ lệ: 1000 XU = 3 KNB = 3 VIP
+                                                    </p>
+                                                    <p>Thời gian xử lí từ 2 đến 5 phút nếu lâu hơn hãy thoát ra vào lại.
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div>
+                                <div class="mb-3 row">
+                                    <label class="col-3 col-form-label required">Số lượng xu: </label>
+                                    <div class="col">
+                                        <input type="number" min="1" class="form-control">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
 
-    <div class="row g-4">
+                    </div>
+                    <div class="card-footer text-end">
+                        <button type="submit" class="btn btn-primary">Xác nhận</button>
+                    </div>
+                </form>
+            </div>
+        </div>
     </div>
 </div>
 @endsection

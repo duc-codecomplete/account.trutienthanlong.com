@@ -1,82 +1,77 @@
 @extends('layouts.master')
 @section('content')
-<div class="container-xl">
-    <div class="row g-3 mb-4 align-items-center justify-content-between">
-        <div class="col-auto">
-            <h1 class="app-page-title mb-0">Danh sách giftcode</h1>*Lưu ý: chọn nhân vật mặc
-            định trước khi mua, nếu chọn sai, chúng tôi sẽ không chịu trách nhiệm</small>
-            <p><small style="">*Nếu không thấy nhân vật, <a href="/update_char">bấm vào đây</a> để cập nhật</small></p>
-        </div>
-    </div>
-</div>
 
-@if(Session::has('error'))
-    <div class="alert alert-danger alert-dismissible fade show" role="alert">
-        <small>{{ Session::get('error') }}</small>
-        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-    </div>
-    @endif
-
-    @if(Session::has('success'))
-    <div class="alert alert-success alert-dismissible fade show" role="alert">
-        <small>{{ Session::get('success') }}</small>
-        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-    </div>
-    @endif
-    <form class="row" action="/set_main_char" method="POST">
-      @csrf
-      <div class="col-4">
-        <select name="main_id" class="form-control" style="padding-top: 0;padding-bottom: 0;">
-            <option value="">---Chọn nhân vật---</option>
-            @foreach (Auth::user()->chars() as $item)
-            <option value="{{ $item['char_id'] }}" @php if ($item["char_id"] == Auth::user()->main_id) {
-                echo "selected";
-            } @endphp>{{ $item['char_id'] }} - {{ $item->getName() }} - {{ $item->getClass() }}</option>
-            @endforeach
-        </select>
-    </div>
-
-      <div class="col-4">
-          <button type="submit" class="btn btn-sm btn-danger text-center">Chọn nhân vật</button>
+<!-- Page body -->
+<div class="page-body">
+  <div class="container-xl">
+    <div class="row row-deck row-cards">
+      <div class="col-12">
+        <form class="card">
+          <div class="card-header">
+            <h3 class="card-title">NHẬN QUÀ - GIFTCODE
+            </h3>
+          </div>
+          <div class="card-body">
+            <div class="mb-3 row">
+              <label class="col-3 col-form-label required">Nhập Mã Giftcode: </label>
+              <div class="col">
+                <input type="" class="form-control" aria-describedby="emailHelp" placeholder="">
+              </div>
+            </div>
+            <div class="mb-3 row">
+              <label class="col-3 col-form-label required">Chọn Nhân Vật</label>
+              <div class="col">
+                <select class="form-select">
+                  <option value="">---Chọn nhân vật---</option>
+                  @foreach (Auth::user()->chars() as $item)
+                  <option>Option 3</option>
+                  @endforeach
+                </select>
+              </div>
+            </div>
+          </div>
+          <div class="card-footer text-end">
+            <button type="submit" class="btn btn-primary">Submit</button>
+          </div>
+        </form>
       </div>
-  </form>
-  <br>
+      <div class="col-12">
+        <form class="card">
+          <div class="card-header text-center">
+            <h3 class="card-title">DANH SÁCH GIFTCODE - DÙNG CHUNG TẤT CẢ TÀI KHOẢN
 
-<div class="row g-4">
-    <div class="col-12">
-        <table class="table table-bordered">
-            <thead>
-              <tr>
-                <th scope="col">Giftcode</th>
-                <th scope="col">Phần thưởng</th>
-                <th scope="col">Ngày hết hạn</th>
-                <th scope="col">Lượt dùng</th>
-                <th scope="col"></th>
-              </tr>
-            </thead>
-            <tbody>
-            @foreach ($giftcodes as $item)
-              <tr>
-                <td>{{ $item->giftcode }}</td>
-                <td>{{ $item->award }}</td>
-                <td>{{\Carbon\Carbon::parse($item->expired)->format("d/m/Y")}}</td>
-                <td>{{ $item->count }}</td>
-                <td>
-                    @if ($item->beUsedByUser(Auth::user()->id))
-                    <button class="btn btn-success" disabled>Đã sử dụng</button>
-                    @else
-                    <a href="/giftcodes/{{ $item->id}}/using" class="btn btn-danger">Sử dụng</a>
-                    @endif
-                </td>
-              </tr>
-            @endforeach
-            </tbody>
-          </table>
+            </h3>
+          </div>
+          <div class="card-body">
+            <div class="table-responsive">
+              <table class="table card-table table-vcenter text-nowrap datatable">
+                <thead>
+                  <tr>
+
+                    <th>Mã giftcode</th>
+                    <th>Phần thưởng</th>
+                    <th></th>
+                  </tr>
+                </thead>
+                <tbody>
+                  @foreach ($giftcodes as $item)
+                  <tr>
+                    <td><a href="invoice.html" class="text-reset" tabindex="-1">Design Works</a></td>
+                    <td>
+                      <span class="flag flag-xs flag-country-us me-2"></span>
+                      Carlson Limited
+                    </td>
+
+                    <td>$887</td>
+                  </tr>
+                  @endforeach
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </form>
+      </div>
     </div>
+  </div>
 </div>
-<style>
-  .btn {
-    color: white !important;
-  }
-</style>
 @endsection
