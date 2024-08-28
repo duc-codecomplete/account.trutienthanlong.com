@@ -99,7 +99,7 @@ class HomeController extends Controller
         if (!$code) {
             return back()->with("error", "Giftcode không tồn tại!");
         }
-        $userGiftcode = GiftcodeUser::where(["user_id" => $user->id, "giftcode_id" => $id])->first();
+        $userGiftcode = GiftcodeUser::where(["user_id" => $user->id, "giftcode_id" => $code->id])->first();
         if ($userGiftcode) {
             return redirect()->back()->with('error', 'Bạn đã dùng giftcode này!');
         }
@@ -107,20 +107,21 @@ class HomeController extends Controller
             DB::beginTransaction();
             $use = new GiftcodeUser;
             $use->user_id = $user->id;
-            $use->giftcode_id = $id;
-            $use->char_id = $user->main_id;
+            $use->giftcode_id = $code->id;
+            $use->char_id = $request->char_id;
             $use->save();
             $code->count = $code->count + 1;
             $code->save();
 
             $this->callGameApi("post", "/html/send2.php", [
-                "receiver" => $user->main_id,
+                "receiver" => $request->char_id,
                 "itemid" => $code->itemid,
                 "count" => $code->quantity,
             ]);
             DB::commit();
             return back()->with("success", "Sử dụng giftcode thành công, vui lòng check tín sứ!");
         } catch (\Exception $e) {
+            throw $e;
             DB::rollback();
             return back()->with("error", "Có lỗi xảy ra, vui lòng liên hệ GM!");
         }

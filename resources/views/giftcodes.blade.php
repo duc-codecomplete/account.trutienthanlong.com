@@ -66,7 +66,7 @@
                 <select class="form-select" name="char_id">
                   <option value="">---Chọn nhân vật---</option>
                   @foreach (Auth::user()->chars() as $item)
-                  <option>Option 3</option>
+                  <option value="{{ $item['char_id'] }}">{{ $item['char_id'] }} - {{ $item->getName() }} - {{ $item->getClass() }}</option>
                   @endforeach
                 </select>
               </div>
@@ -99,12 +99,12 @@
                 <tbody>
                   @foreach ($giftcodes as $item)
                   <tr>
-                    <td><a href="invoice.html" class="text-reset" tabindex="-1">{{$item->giftcode}}</a></td>
+                    <td>{{$item->giftcode}}</td>
                     <td>
                       {{$item->award}}
                     </td>
 
-                    <td>Copy</td>
+                    <td>Chưa dùng</td>
                   </tr>
                   @endforeach
                 </tbody>
